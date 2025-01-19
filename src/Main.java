@@ -19,6 +19,15 @@ public class Main {
 //        }
         start();
     }
+    private static int getIntInput(Scanner scanner) {
+        while (true) {
+            try {
+                return Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.print("Неверный ввод. Пожалуйста, введите целое число: ");
+            }
+        }
+    }
     public static void start() {
         Scanner scanner = new Scanner(System.in);
         Object[] inputData = null;
@@ -82,7 +91,54 @@ public class Main {
                         break;
                     }
                     case 3: {
-                        System.out.println("3");
+                        System.out.println("Выберите класс для заполнения:");
+                        System.out.println("31. Студент");
+                        System.out.println("32. Пользователь");
+                        System.out.println("33. Автобус");
+                        System.out.println("0. Вернуться назад");
+                        System.out.print("Ваш выбор: ");
+                        input = scanner.nextLine();
+                        try {
+                            index = Integer.parseInt(input);
+                            switch (index) {
+                                case 31: {
+                                    System.out.print("Введите количество студентов: ");
+                                    int studentCount = getIntInput(scanner);
+                                    inputData = new Student[studentCount];
+                                    for (int i = 0; i < studentCount; i++) {
+                                        System.out.print("Введите номер группы студента: ");
+                                        String groupNumber = scanner.nextLine();
+                                        System.out.print("Введите средний балл студента: ");
+                                        String averageGrade = scanner.nextLine();
+                                        System.out.print("Введите номер зачетной книжки студента: ");
+                                        String gradeBookNumber = scanner.nextLine();
+                                        inputData[i]= new Student.BuilderStudent()
+                                                .setNumberGroup(groupNumber)
+                                                .setScore(Double.parseDouble(averageGrade))
+                                                .setStudentsRecordBook(gradeBookNumber)
+                                                .build();
+                                    }
+                                    System.out.println("Массив студентов заполнен вручную.");
+                                    break;
+                                }
+                                case 32: {
+                                    inputData = User.randomUser(5);
+                                    break;
+                                }
+                                case 33: {
+                                    inputData = Bus.randomBus(5);
+                                    break;
+                                }
+
+                                case 0: {
+                                    break;
+                                }
+                                default:
+                                    System.out.println("Нет такого пункта");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Не верный пункт");
+                        }
                         break;
                     }
                     case 4: {
@@ -140,5 +196,7 @@ public class Main {
             }
 
         }
+
     }
+
 }
