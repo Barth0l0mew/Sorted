@@ -4,7 +4,7 @@ import net.datafaker.Faker;
 
 import java.io.Serializable;
 
-public class Bus implements Serializable {
+public class Bus implements Serializable, Comparable<Bus> {
     private String numberBus;
     private String modelBus;
     private String scoreBus;
@@ -32,7 +32,7 @@ public class Bus implements Serializable {
                 "numberBus='" + numberBus + '\'' +
                 ", modelBus='" + modelBus + '\'' +
                 ", scoreBus='" + scoreBus + '\'' +
-                '}';
+                '}'+"\n";
     }
 
     public static Bus[] randomBus(int count) {
@@ -46,6 +46,19 @@ public class Bus implements Serializable {
                     .build();
         }
         return buss;
+    }
+
+    @Override
+    public int compareTo(Bus other) {
+        int numberComparison = this.numberBus.compareTo(other.numberBus);
+        int modelComparison = this.modelBus.compareTo(other.modelBus);
+
+        if (numberComparison != 0) {
+            return numberComparison;
+        } else if (modelComparison != 0) {
+            return modelComparison;
+        } else
+            return this.scoreBus.compareTo(other.scoreBus);
     }
 
     public static class BuilderBus {

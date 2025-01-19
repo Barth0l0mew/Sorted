@@ -8,7 +8,7 @@ import java.io.Serializable;
 import static net.datafaker.providers.base.Text.DIGITS;
 import static net.datafaker.providers.base.Text.EN_UPPERCASE;
 
-public class User implements Serializable {
+public class User implements Serializable,Comparable<User> {
     private String userName;
     private String userPassword;
     private String userUrl;
@@ -37,7 +37,7 @@ public class User implements Serializable {
                 "userName='" + userName + '\'' +
                 ", userPassword='" + userPassword + '\'' +
                 ", userUrl='" + userUrl + '\'' +
-                '}';
+                '}' +"\n";
     }
 
     public static User[] randomUser(int count) {
@@ -54,6 +54,19 @@ public class User implements Serializable {
                     .build();
         }
         return users;
+    }
+
+    @Override
+    public int compareTo(User other) {
+        int nameComparison = this.userName.compareTo(other.userName);
+        int passwordComparison = this.userPassword.compareTo(other.userPassword);
+
+        if (nameComparison != 0) {
+            return nameComparison;
+        } else if (passwordComparison != 0) {
+            return passwordComparison;
+        } else
+            return this.userUrl.compareTo(other.userUrl);
     }
 
     public static class BuilderUser {

@@ -3,6 +3,7 @@ import model.Student;
 import model.User;
 import net.datafaker.providers.base.App;
 import org.w3c.dom.ls.LSOutput;
+import sorting.ArraySorting;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -21,21 +22,30 @@ public class Main {
     public static void start() {
         Scanner scanner = new Scanner(System.in);
         Object[] inputData = null;
+        Object[] outputData = null;
         while (true) {
             System.out.println("Введите пункт");
-            System.out.println("1 - загрузка с файла");
-            System.out.println("2 - загрузка рандомная");
-            System.out.println("3 - загрузка пользовательская");
+            System.out.println("1 - создания массива объектов из файла");
+            System.out.println("2 - создания массива объектов рандомная ");
+            System.out.println("3 - создания массива объектов пользовательская");
             System.out.println("4 - вывод содержимого файла на экран");
-            System.out.println("5 - вывод содержимого массива");
-            System.out.println("6 - Сохранения в файл");
+            System.out.println("5 - вывод содержимого массива на экран");
+            System.out.println("6 - Сохранения в файл массива объектов");
+            System.out.println("7 - Сортировка массива");
+            System.out.println("8 - Сохранения резульатов поиска или сортировки");
             System.out.println("0 - выход");
             String input = scanner.nextLine();
             try {
                 int index = Integer.parseInt(input);
                 switch (index) {
                     case 1: {
-                        System.out.println("1");
+                        System.out.println("Укажите путь к файлу");
+                        String filePath = scanner.nextLine();
+                        if (!filePath.isBlank()) {
+                            for (Object el : LoadObject.readObjects(filePath)) {
+                                inputData = (Object[]) el;
+                            }
+                        }
                         break;
                     }
                     case 2: {
@@ -105,6 +115,20 @@ public class Main {
                         AppendObject.saveObject(namePath,inputData);
                         break;
                     }
+                    case 7: {
+                        outputData = ArraySorting.sortArray(inputData);
+                        System.out.println(Arrays.toString(outputData));
+                        //System.out.println(Arrays.toString(ArraySorting.sortArray(inputData)));
+
+                        break;
+                    }
+                    case 8:{
+                        System.out.println("Введите имя файла для сохранения результата");
+                        input = scanner.nextLine();
+                        AppendObject.saveObject(input,outputData);
+                        break;
+                    }
+
                     case 0: {
                         return;
                     }

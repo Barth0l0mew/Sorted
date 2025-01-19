@@ -4,7 +4,7 @@ import net.datafaker.Faker;
 
 import java.io.Serializable;
 
-public class Student implements Serializable {
+public class Student implements Serializable, Comparable<Student> {
     private String numberGroup;
     private String score;
     private String studentsRecordBook;
@@ -33,7 +33,7 @@ public class Student implements Serializable {
                 "numberGroup='" + numberGroup + '\'' +
                 ", score=" + score +
                 ", studentsRecordBook='" + studentsRecordBook + '\'' +
-                '}';
+                '}'+"\n";
     }
     public static Student[] randomStudents(int count) {
         Student[] students = new Student[count];
@@ -46,6 +46,19 @@ public class Student implements Serializable {
                     .build();
         }
     return students;
+    }
+
+    @Override
+    public int compareTo(Student other) {
+        int groupNumberComparison = this.numberGroup.compareTo(other.numberGroup);
+        int averageGradeComparison = this.score.compareTo(other.score);
+
+        if (groupNumberComparison != 0) {
+            return groupNumberComparison;
+        } else if (averageGradeComparison != 0) {
+            return averageGradeComparison;
+        } else
+            return this.studentsRecordBook.compareTo(other.studentsRecordBook);
     }
 
     public static class BuilderStudent {
